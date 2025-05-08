@@ -1,6 +1,14 @@
 /* === Imports === */
-import { initializeApp } from "firebase/app";
+
 /* === Firebase Setup === */
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-auth.js";
+// TODO: Add SDKs for Firebase products that you want to use
+
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDmpmE-yirgdKkhNFk1PqTgl1jrbcG3q-w",
   authDomain: "moody-bfbc9.firebaseapp.com",
@@ -10,7 +18,12 @@ const firebaseConfig = {
   appId: "1:994016756483:web:74843e42b17b41b41a9f36",
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+console.log("Firebase initialized", app, auth);
+
 /* === UI === */
 
 /* == UI - Elements == */
@@ -50,7 +63,17 @@ function authSignInWithEmail() {
 }
 
 function authCreateAccountWithEmail() {
-  console.log("Sign up with email and password");
+  const email = emailInputEl.value;
+  const password = passwordInputEl.value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      showLoggedInView();
+      // ...
+    })
+    .catch((error) => {
+      console.error("Error creating account", error.code, error.message);
+    });
 }
 
 /* == Functions - UI Functions == */
